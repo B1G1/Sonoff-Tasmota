@@ -1201,6 +1201,10 @@ void ExecuteCommandCover(byte cover, int16_t position)
     cover_position[cover] = abs(position);
     position = POWER_BLINK;
   }
+  if ((position == 0 && cover_direction[cover] == -1) && pulse_timer[cover] )
+    position = POWER_BLINK;
+  if ((position == 1 && cover_direction[cover] == 1) && pulse_timer[cover] )
+	position = POWER_BLINK;	
   if (position == POWER_TOGGLE) {
     if (pulse_timer[cover])
       position = POWER_BLINK;

@@ -1898,7 +1898,12 @@ void SwitchHandler()
 
         if (switchflag < 3) {
           if (!SendKey(1, i +1, switchflag)) {  // Execute command via MQTT
-            ExecuteCommandPower(i +1, switchflag, SRC_SWITCH);        // Execute command internally (if i < devices_present)
+            if (Settings.flag.cover_mode)
+            {
+              ExecuteCommandCover((i+1)/2+1, i % 2);
+            }
+            else
+              ExecuteCommandPower(i +1, switchflag, SRC_SWITCH);        // Execute command internally (if i < devices_present)
           }
         }
 

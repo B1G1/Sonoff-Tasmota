@@ -1228,8 +1228,11 @@ void ExecuteCommandCover(byte cover, int16_t position)
       if (cover_direction[cover] > 0)
         device += 1;
       power_t mask = (1 << device);
-      power |= mask;
-      SetDevicePower(power, SRC_IGNORE);
+      //power |= mask;
+      //SetDevicePower(power, SRC_IGNORE);
+      SetDevicePower(power | mask, SRC_IGNORE);	 
+      delay(100); // 100ms relay on to make sure its seen 
+      SetDevicePower(power);
       MqttPublishPowerState(cover + 1);
       return;
     }
@@ -1299,9 +1302,11 @@ void ExecuteCommandCover(byte cover, int16_t position)
     return;
   }
   power_t mask = (1 << device);
-  power |= mask;
-  SetDevicePower(power, SRC_IGNORE);
-
+  //power |= mask;
+  //SetDevicePower(power, SRC_IGNORE);
+  SetDevicePower(power | mask, SRC_IGNORE);	 
+  delay(100); // 100ms relay on to make sure its seen 
+  SetDevicePower(power);
   snprintf_P(log_data, sizeof(log_data), "Pulse: %d, To:%d,From:%d,By:%d", pulse_timer[cover], position, cover_position[cover], cover_direction[cover]);
   AddLog(LOG_LEVEL_DEBUG);
 }
